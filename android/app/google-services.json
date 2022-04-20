@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "804620055065",
+    "project_id": "qmate-da3d1",
+    "storage_bucket": "qmate-da3d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804620055065:android:cacb86ee38664f0f4d7088",
+        "android_client_info": {
+          "package_name": "com.example.qmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "804620055065-hvigpi9klnia1gm696qtojn0777otr7p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbXnEVVegZrn_c7Pqh0xHagbDsi7jNzXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "804620055065-hvigpi9klnia1gm696qtojn0777otr7p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
