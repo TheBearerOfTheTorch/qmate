@@ -21,7 +21,6 @@ class AuthServices with ChangeNotifier {
         'displayName': name,
         'email': email,
         'password': password,
-        'photoURL': ""
       });
 
       await user!.sendEmailVerification();
