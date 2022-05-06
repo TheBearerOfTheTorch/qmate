@@ -102,9 +102,9 @@ class _RegisterAuthState extends State<RegisterAuth> {
                                 horizontal: 10, vertical: 5),
                             child: ListTile(
                               title: Text(loginProvider.errorMessage),
-                              leading: Icon(Icons.error),
+                              leading: const Icon(Icons.error),
                               trailing: IconButton(
-                                icon: Icon(Icons.close),
+                                icon: const Icon(Icons.close),
                                 onPressed: () => loginProvider.setMessage(""),
                               ),
                             )),
@@ -145,18 +145,17 @@ class _RegisterAuthState extends State<RegisterAuth> {
                                   Stepper(
                                     physics: const BouncingScrollPhysics(),
                                     steps: _mySteps(),
-                                    currentStep: this._currentStep,
+                                    currentStep: _currentStep,
                                     onStepTapped: (step) {
                                       setState(() {
-                                        this._currentStep = step;
+                                        _currentStep = step;
                                       });
                                     },
                                     onStepContinue: () {
                                       setState(() {
-                                        if (this._currentStep <
-                                            this._mySteps().length - 1) {
-                                          this._currentStep =
-                                              this._currentStep + 1;
+                                        if (_currentStep <
+                                            _mySteps().length - 1) {
+                                          _currentStep = _currentStep + 1;
                                         } else {
                                           if (_formkey.currentState!
                                               .validate()) {
