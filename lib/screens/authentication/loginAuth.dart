@@ -46,18 +46,15 @@ class _LoginAuthState extends State<LoginAuth> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      "assets/images/ic_launcher.png",
-                      width: 200,
-                    ),
-                  ),
                   const SizedBox(
                     height: 30,
                   ),
-                  // ignore: unnecessary_null_comparison
-
+                  const Center(
+                      child: Text("Login",
+                          style: TextStyle(
+                            fontSize: 25,
+                          ))),
+                  const SizedBox(height: 120),
                   if (loginProvider.errorMessage != "")
                     Container(
                         padding: const EdgeInsets.symmetric(

@@ -11,7 +11,7 @@ class AuthServices with ChangeNotifier {
   String get errorMessage => _errorMessage;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  Future registerNewUsers({var name, var email, var password}) async {
+  Future registerNewUsers({var name, var email, var role, var password}) async {
     setLoading(true);
     try {
       UserCredential authResult = await firebaseAuth
@@ -20,6 +20,7 @@ class AuthServices with ChangeNotifier {
       await FirebaseFirestore.instance.collection('users').doc(user?.uid).set({
         'displayName': name,
         'email': email,
+        'role': role,
         'password': password,
       });
 

@@ -27,7 +27,7 @@ class _RegisterAuthState extends State<RegisterAuth> {
 
   //dropdown
   var selectedCurrency, selectedType;
-  List<String> _accountType = <String>['client', 'service provider'];
+  List<String> _accountType = <String>['user', 'qmate'];
 
   int _currentStep = 0;
 
@@ -78,13 +78,12 @@ class _RegisterAuthState extends State<RegisterAuth> {
                   child: Column(
                     children: [
                       const CircleAvatar(
-                        backgroundImage:
-                            AssetImage("assets/images/cleanLogo.jpg"),
+                        child: Text("Register"),
                         maxRadius: 60,
                         backgroundColor: Colors.green,
                       ),
                       const Text(
-                        "Register to cleaninq",
+                        "Register to Qmate",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colors.white,
@@ -164,6 +163,7 @@ class _RegisterAuthState extends State<RegisterAuth> {
                                                 _secondPasswordController.text
                                                     .trim()) {
                                               loginProvider.registerNewUsers(
+                                                role: selectedType,
                                                 name:
                                                     _nameController.text.trim(),
                                                 email: _emailController.text
@@ -221,17 +221,17 @@ class _RegisterAuthState extends State<RegisterAuth> {
   List<Step> _mySteps() {
     List<Step> _steps = [
       Step(
-        title: Text('Account Information'),
+        title: const Text('Account Information'),
         content: firstStep(),
         isActive: _currentStep >= 0,
       ),
       Step(
-        title: Text('Contacts Information'),
+        title: const Text('Contacts Information'),
         content: secondStep(),
         isActive: _currentStep >= 1,
       ),
       Step(
-        title: Text('Account Type'),
+        title: const Text('Account Type'),
         content: lastStep(),
         isActive: _currentStep >= 2,
       )
@@ -248,11 +248,11 @@ class _RegisterAuthState extends State<RegisterAuth> {
             decoration: InputDecoration(
                 labelText: "Name",
                 hintText: "Full Name",
-                prefixIcon: Icon(Icons.person_add_alt_1),
+                prefixIcon: const Icon(Icons.person_add_alt_1),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ))),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         TextFormField(
@@ -262,11 +262,11 @@ class _RegisterAuthState extends State<RegisterAuth> {
             decoration: InputDecoration(
                 labelText: "Email",
                 hintText: "Email",
-                prefixIcon: Icon(Icons.attach_email),
+                prefixIcon: const Icon(Icons.attach_email),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ))),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         TextFormField(
@@ -275,11 +275,11 @@ class _RegisterAuthState extends State<RegisterAuth> {
             validator: (val) => val!.length < 6 ? "* Password required" : null,
             decoration: InputDecoration(
                 hintText: "Password",
-                prefixIcon: Icon(Icons.lock_clock),
+                prefixIcon: const Icon(Icons.lock_clock),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ))),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         TextFormField(
@@ -290,7 +290,7 @@ class _RegisterAuthState extends State<RegisterAuth> {
             decoration: InputDecoration(
                 labelText: "Confirm",
                 hintText: "Confirm Password",
-                prefixIcon: Icon(Icons.vpn_key),
+                prefixIcon: const Icon(Icons.vpn_key),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 )))
@@ -307,11 +307,11 @@ class _RegisterAuthState extends State<RegisterAuth> {
             decoration: InputDecoration(
                 labelText: "Location",
                 hintText: "City/Town/Village",
-                prefixIcon: Icon(Icons.location_city),
+                prefixIcon: const Icon(Icons.location_city),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ))),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         TextFormField(
@@ -321,7 +321,7 @@ class _RegisterAuthState extends State<RegisterAuth> {
             decoration: InputDecoration(
                 labelText: "Contacts",
                 hintText: "Contacts",
-                prefixIcon: Icon(Icons.phone_android),
+                prefixIcon: const Icon(Icons.phone_android),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ))),
@@ -333,18 +333,18 @@ class _RegisterAuthState extends State<RegisterAuth> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Icon(
+        const Icon(
           FontAwesomeIcons.moneyBill,
           size: 25.0,
           color: Color(0xff11b719),
         ),
-        SizedBox(width: 50.0),
+        const SizedBox(width: 50.0),
         DropdownButton(
           items: _accountType
               .map((value) => DropdownMenuItem(
                     child: Text(
                       value,
-                      style: TextStyle(color: Color(0xff11b719)),
+                      style: const TextStyle(color: Color(0xff11b719)),
                     ),
                     value: value,
                   ))
@@ -357,7 +357,7 @@ class _RegisterAuthState extends State<RegisterAuth> {
           },
           value: selectedType,
           isExpanded: false,
-          hint: Text(
+          hint: const Text(
             'Choose Account Type',
             style: TextStyle(color: Color(0xff11b719)),
           ),
