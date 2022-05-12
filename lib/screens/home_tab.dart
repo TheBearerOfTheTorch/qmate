@@ -33,14 +33,18 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
+    return Container(
+      child: SingleChildScrollView(
         child: Form(
           key: _key,
           child: Padding(
-            padding: const EdgeInsets.only(top: 40.0, left: 15.0, right: 15.0),
+            padding: const EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
             child: Column(
               children: [
+                const Text("Register Queues", style: TextStyle(fontSize: 30)),
+                const SizedBox(
+                  height: 6,
+                ),
                 TextFormField(
                   controller: _nameController,
                   validator: (value) {
@@ -50,11 +54,14 @@ class _HomeTabState extends State<HomeTab> {
                     return null;
                   },
                   decoration: const InputDecoration(
-                      hintText: "Enter your name",
-                      border: OutlineInputBorder()),
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.user,
+                    ),
+                    hintText: "Enter your name",
+                  ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 TextFormField(
                   controller: _locationController,
@@ -65,11 +72,14 @@ class _HomeTabState extends State<HomeTab> {
                     return null;
                   },
                   decoration: const InputDecoration(
-                      hintText: "Enter location to queue",
-                      border: OutlineInputBorder()),
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.locationArrow,
+                    ),
+                    hintText: "Enter location to queue",
+                  ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 TextFormField(
                   controller: _officeController,
@@ -80,11 +90,14 @@ class _HomeTabState extends State<HomeTab> {
                     return null;
                   },
                   decoration: const InputDecoration(
-                      hintText: "Enter the office or field",
-                      border: OutlineInputBorder()),
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.building,
+                    ),
+                    hintText: "Enter the office or field",
+                  ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 TextFormField(
                   controller: _contactController,
@@ -95,11 +108,14 @@ class _HomeTabState extends State<HomeTab> {
                     return null;
                   },
                   decoration: const InputDecoration(
-                      hintText: "Number qmate to contact you",
-                      border: OutlineInputBorder()),
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.phone,
+                    ),
+                    hintText: "Number qmate to contact you",
+                  ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextFormField(
                   readOnly: true,
@@ -131,7 +147,7 @@ class _HomeTabState extends State<HomeTab> {
                   },
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 TextFormField(
                   controller: timeCtl, // add this line.
@@ -163,31 +179,43 @@ class _HomeTabState extends State<HomeTab> {
                   },
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 30,
                 ),
-                ElevatedButton(
-                    onPressed: () async {
-                      if (_key.currentState!.validate()) {
-                        setState(() {
-                          loading = true;
-                        });
+                SizedBox(
+                  height: 38,
+                  child: MaterialButton(
+                      color: Colors.green,
+                      onPressed: () async {
+                        if (_key.currentState!.validate()) {
+                          setState(() {
+                            loading = true;
+                          });
 
-                        bool check = await request.submitRequest(
-                            name: _nameController.text,
-                            location: _locationController.text,
-                            office: _officeController.text,
-                            contact: _contactController.text,
-                            date: _anotherDateController.text,
-                            time: timeCtl.text);
+                          bool check = await request.submitRequest(
+                              name: _nameController.text,
+                              location: _locationController.text,
+                              office: _officeController.text,
+                              contact: _contactController.text,
+                              date: _anotherDateController.text,
+                              time: timeCtl.text);
 
-                        setState(() {
-                          loading = check;
-                        });
-                      }
-                    },
-                    child: loading
-                        ? const CircularProgressIndicator()
-                        : const Text("submit request"))
+                          setState(() {
+                            loading = check;
+                          });
+                          const snackBar = SnackBar(
+                              content: Text(
+                                  "You have registered a Queue successfully"));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            snackBar,
+                          );
+                        }
+                      },
+                      child: loading
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : const Text("submit request")),
+                )
               ],
             ),
           ),

@@ -42,7 +42,7 @@ class _WrapperState extends State<Wrapper> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data != null) {
                         //print(user);
-                        checkingRole(user);
+                        checkingRole(user.uid);
                       }
                       if (snapshot.hasError) {
                         return const Text("An unknown error has occured !");
@@ -66,10 +66,8 @@ class _WrapperState extends State<Wrapper> {
 
   checkingRole(user) async {
     if (user != null) {
-      final DocumentSnapshot snap = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user.uid)
-          .get();
+      final DocumentSnapshot snap =
+          await FirebaseFirestore.instance.collection("users").doc(user).get();
 
       setState(() {
         role = snap['role'];

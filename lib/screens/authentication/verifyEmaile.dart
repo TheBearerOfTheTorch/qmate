@@ -80,8 +80,7 @@ class VerifyDisplay extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const CircleAvatar(
-                                  backgroundImage:
-                                      AssetImage("assets/images/cleanLogo.jpg"),
+                                  child: Text("Verify"),
                                   maxRadius: 60,
                                   backgroundColor: Colors.green,
                                 ),

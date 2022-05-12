@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qmate/screens/request_tab.dart';
 
+import '../authentication_services/auth_services.dart';
 import 'authentication/loginAuth.dart';
 import 'home_tab.dart';
 
@@ -13,7 +15,9 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int currentIndex = 0;
-  final tabs = [const HomeTab(), const RequestTab()];
+  final tabs = [const RequestTab(), const HomeTab()];
+
+  AuthServices loginAuth = AuthServices();
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +27,8 @@ class _HomeState extends State<Home> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => LoginAuth()),
-                  (Route<dynamic> route) => false);
+            onPressed: () async {
+              await loginAuth.logout();
             },
           )
         ],

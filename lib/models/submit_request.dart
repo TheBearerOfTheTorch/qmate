@@ -40,4 +40,22 @@ class SubmitRequest {
     });
     return false;
   }
+
+  Future requestQueue({id, queueId, userId}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(userId)
+        .collection("requests")
+        .doc(queueId)
+        .update({
+      'accepted': true,
+      'time': DateTime.now().toLocal(),
+    }).then((value) async {
+      await firebaseFirestore
+          .collection("requests")
+          .doc(queueId)
+          .update({'foundQmate': true, 'timeStamp': DateTime.now().toLocal()});
+    });
+    return false;
+  }
 }

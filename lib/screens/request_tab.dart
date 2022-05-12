@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RequestTab extends StatefulWidget {
   const RequestTab({Key? key}) : super(key: key);
@@ -17,9 +18,15 @@ class _RequestTabState extends State<RequestTab> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text("My Queue request"),
         const SizedBox(
-          height: 40,
+          height: 20,
+        ),
+        const Text(
+          "My Queue request",
+          style: TextStyle(fontSize: 30),
+        ),
+        const SizedBox(
+          height: 10,
         ),
         StreamBuilder<QuerySnapshot>(
             stream: _firestore
@@ -40,24 +47,41 @@ class _RequestTabState extends State<RequestTab> {
                 );
               }
 
-              return ListView(
-                children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                  Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
-                  return Card(
-                    child: ListTile(
-                      title: Text(data['office']),
-                      subtitle: Text(data['location']),
-                      trailing: Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                            color: data['accepted'] ? Colors.green : Colors.red,
-                            borderRadius: BorderRadius.circular(20)),
+              return SizedBox(
+                height: MediaQuery.of(context).size.height / 1.3,
+                child: ListView(
+                  scrollDirection: Axis.vertical,
+                  children:
+                      snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
+                    return Card(
+                      child: ListTile(
+                        title: Text(data['office']),
+                        subtitle: Row(
+                          children: [
+                            const Icon(
+                              Icons.location_on,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(
+                              width: 30,
+                            ),
+                            Text(data['location']),
+                          ],
+                        ),
+                        trailing: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                              color:
+                                  data['accepted'] ? Colors.green : Colors.red,
+                              borderRadius: BorderRadius.circular(20)),
+                        ),
                       ),
-                    ),
-                  );
-                }).toList(),
+                    );
+                  }).toList(),
+                ),
               );
             })
       ],

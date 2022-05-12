@@ -1,7 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:qmate/authentication_services/auth_services.dart';
+import 'package:qmate/models/submit_request.dart';
 
 import 'authentication/loginAuth.dart';
+import 'chat_screen.dart';
 
 class QmateScreen extends StatefulWidget {
   const QmateScreen({Key? key}) : super(key: key);
@@ -11,6 +16,19 @@ class QmateScreen extends StatefulWidget {
 }
 
 class _QmateScreenState extends State<QmateScreen> {
+  TextEditingController _idController = TextEditingController();
+
+  //object
+  SubmitRequest request = SubmitRequest();
+
+  //variable
+  bool loading = false;
+
+  AuthServices authServices = AuthServices();
+
+  //key
+  final _key = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,11 +37,8 @@ class _QmateScreenState extends State<QmateScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (_) => LoginAuth()),
-                  (Route<dynamic> route) => false);
+            onPressed: () async {
+              await authServices.logout();
             },
           )
         ],
@@ -31,9 +46,12 @@ class _QmateScreenState extends State<QmateScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Center(child: Text("Queue requests")),
+            const Text(
+              "Queue requests",
+              style: TextStyle(fontSize: 30),
+            ),
             const SizedBox(
-              height: 50,
+              height: 30,
             ),
             StreamBuilder<QuerySnapshot>(
               stream:
@@ -50,26 +68,67 @@ class _QmateScreenState extends State<QmateScreen> {
                     child: CircularProgressIndicator(),
                   );
                 }
-                return ListView(
-                  scrollDirection: Axis.vertical,
-                  children:
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data =
-                        document.data() as Map<String, dynamic>;
-                    return Card(
-                        child: ListTile(
-                      title: Text(data['office']),
-                      subtitle: Text(data['time']),
-                      trailing: Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                          color: data['foundQmate'] ? Colors.green : Colors.red,
-                          borderRadius: BorderRadius.circular(15),
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.3,
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
+                      Map<String, dynamic> data =
+                          document.data() as Map<String, dynamic>;
+                      return Card(
+                          child: ListTile(
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title:
+                                      Text("Request ${data['office']} Queue"),
+                                  content: Form(
+                                    key: _key,
+                                    child: SizedBox(
+                                      height: 120,
+                                      child: Column(
+                                        children: [
+                                          ElevatedButton(
+                                              onPressed: () async {
+                                                Navigator.of(context).pop();
+
+                                                //get to the chat screens
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ChatScreen()),
+                                                );
+                                              },
+                                              child: loading
+                                                  ? const CircularProgressIndicator(
+                                                      color: Colors.white,
+                                                    )
+                                                  : const Text("Accept"))
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              });
+                        },
+                        title: Text(data['office']),
+                        subtitle: Text(data['time']),
+                        trailing: Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color:
+                                data['foundQmate'] ? Colors.green : Colors.red,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
-                      ),
-                    ));
-                  }).toList(),
+                      ));
+                    }).toList(),
+                  ),
                 );
               },
             ),
